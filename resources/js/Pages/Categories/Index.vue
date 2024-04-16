@@ -7,6 +7,7 @@ export default {
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link } from "@inertiajs/vue3";
+import { Inertia } from "@inertiajs/inertia";
 
 defineProps({
     categories: {
@@ -34,7 +35,7 @@ const deleteCategory = id => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="flex justify-between">
+                    <div class="flex justify-between" v-if="$page.props.user.permissions.includes('create categories')">
                         <Link :href="route('categories.create')" class="text-white text-xs font-bold bg-indigo-500 hover:bg-indigo-700 py-2 px-4 rounded">
                             CREATE CATEGORY
                         </Link>
@@ -42,21 +43,31 @@ const deleteCategory = id => {
                 
                 <div class="mt-4">
                     <ul role="list" class="divide-y divide-gray-100">
-                        <li class="flex justify-between gap-x-6 py-5" v-for="category in categories.data">
+                        <li class="flex justify-between gap-x-6 py-3" v-for="category in categories.data">
                             <div class="flex min-w-0 gap-x-4">
                                 <div class="min-w-0 flex-auto">
                                     <p class="text-md font-semibold leading-6 text-gray-900">{{ category.name }}</p>
                                 </div>
                             </div>
                             <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                <p class="text-sm leading-6 text-gray-900">
-                                    <Link :href="route('categories.edit', category.id)">Edit</Link>
-                                    <Link @click="deleteCategory(category.id)">Delete</Link>
+                                <p class="text-sm leading-6 text-gray-900  space-x-1.5">
+                                    <Link class="py-2 px-4 bg-indigo-100 rounded-md hover:bg-indigo-300 font-semibold text-xs uppercase" :href="route('categories.edit', category.id)" v-if="$page.props.user.permissions.includes('update categories')">Edit</Link>
+                                    <Link class="py-2 px-4 text-red-600 font-semibold text-xs uppercase bg-indigo-100 rounded-md hover:bg-indigo-300" @click="deleteCategory(category.id)" v-if="$page.props.user.permissions.includes('delete categories')">Delete</Link>
                                 </p>
                             </div>
                         </li>
                     </ul>
                 </div>
+                    <div class="flex justify-between mt-2">
+                        <Link v-if="categories.current_page > 1" :href="categories.prev_page_url" class="py-2 px-4 rounded bg-gray-300">
+                            PREVIUS
+                        </Link>
+                        <div v-else></div>
+                        <Link v-if="categories.current_page < categories.last_page" :href="categories.next_page_url" class="py-2 px-4 rounded bg-gray-300">
+                            NEXT
+                        </Link>
+                        <div v-else></div>
+                    </div>
                 </div>
             </div>
         </div>

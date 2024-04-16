@@ -8,6 +8,7 @@ import Welcome from '@/Components/Welcome.vue';
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard inicial
+                {{ $page.props }}
             </h2>
         </template>
 
