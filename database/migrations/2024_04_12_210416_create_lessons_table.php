@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('content_uri', 255);
             $table->string('pdf_uri', 255);
             $table->unsignedBigInteger('level_id');
+            $table->boolean('is_free')->default(false);
             $table->timestamps();
 
             $table->foreign('level_id')
