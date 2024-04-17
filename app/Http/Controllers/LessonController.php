@@ -33,9 +33,12 @@ class LessonController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store($request)
+    public function store(LessonRequest $request)
     {
-        Lesson::create($request);
+        
+        //echo $request;
+        //dd($request->validated());
+        //Lesson::create($request->validated());
         return redirect()->route('lessons.index');
     }
 

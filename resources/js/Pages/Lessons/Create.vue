@@ -23,7 +23,7 @@
     const form = useForm({
         name: '',
         description: '',
-        content_uri: '',
+        content_uri: 'x',
         level_id: 0,
         categories: []
     })
