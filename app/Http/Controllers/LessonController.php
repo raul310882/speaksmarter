@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LessonRequest;
 use App\Models\Category;
 use App\Models\Lesson;
 use App\Models\Level;
@@ -32,9 +33,10 @@ class LessonController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($request)
     {
-        //
+        Lesson::create($request);
+        return redirect()->route('lessons.index');
     }
 
     /**

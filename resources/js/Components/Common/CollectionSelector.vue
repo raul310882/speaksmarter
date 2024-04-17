@@ -38,7 +38,7 @@ const handleRemoveSelection = (index) => {
         <div>
                 <ul>
                     <li class="text-xs bg-indigo-100 rounded hover:bg-indigo-300 py-2 px-2 ml-1 mt-1 mb-1" v-for="(item, index) in selection" :key="index" @click="handleRemoveSelection(item.id)">{{ item.name }}
-                    <span class="cursor-pointer">X</span>
+                    <span class="cursor-pointer float-right">X</span>
                     </li>
                 </ul>
         </div>
