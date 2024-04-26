@@ -9,7 +9,7 @@ use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
-    const NUMBER_OF_ITEMS_PER_PAGE = 8;
+    const NUMBER_OF_ITEMS_PER_PAGE = 10;
     /**
      * Display a listing of the resource.
      */

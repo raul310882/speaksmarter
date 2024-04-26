@@ -23,7 +23,9 @@ class LessonRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:100',
-            'description' => 'required|string|max:150'
+            'description' => 'required|string|max:150',
+            'content_uri' => 'required|string|max:150',
+            'level_id' => 'required'
         ];
     }
 }

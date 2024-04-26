@@ -33,17 +33,19 @@ defineProps({
         required: true
     }
 })
+const emit = defineEmits(['changeSelected', 'submit'])
 const categoriesSelected = ref([])
 
 const onCategories = (_categories) => {
     categoriesSelected.value = _categories
+    emit('changeSelected', categoriesSelected.value)
 }
 
-defineEmits(['submit'])
+
 </script>
 
 <template>
-    <FormSection @submitted="$emit('submit')">
+    <FormSection>
         <template #title>
             {{ updating ? 'Update Lesson' : 'Create New Lesson' }}
         </template>
@@ -71,7 +73,7 @@ defineEmits(['submit'])
                     <div class="flex">
                         <div class="w-1/2">
                             <InputLabel for="level_id" value="Level" />
-                            <select name="level_id" id="level_id" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                            <select name="level_id" id="level_id" v-model="form.level_id" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <option v-for="level in levels" :value="level.id">{{ level.name }}</option>
                             </select>
                             <InputError :message="$page.props.errors.level_id" class="mt-2" />
@@ -85,7 +87,7 @@ defineEmits(['submit'])
             </div>
         </template>
         <template #actions>
-            <PrimaryButton>
+            <PrimaryButton @click="$emit('submit')">
                 {{ updating ? 'Update' : 'Create' }}
             </PrimaryButton>
         </template> 

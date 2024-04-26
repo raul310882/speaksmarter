@@ -11,9 +11,13 @@ class Lesson extends Model
 
     protected $guarded = [];
 
+    protected $attributes = [
+        'pdf_uri' => "No tiene PDF",
+    ];
+
     public function categories ()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->withTimestamps();;
     }
 
     public function level()

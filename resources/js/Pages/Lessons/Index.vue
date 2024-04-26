@@ -16,8 +16,8 @@ defineProps({
     }
 });
 
-const deleteLesson = id => {
-    if (confirm('Are you sure you want to delete this lesson?')) {
+const deleteLesson = (id, name) => {
+    if (confirm('Are you sure you want to delete the '+ name +' lesson?')) {
         Inertia.delete(route('lessons.destroy', id));
     }
 }
@@ -28,7 +28,7 @@ const deleteLesson = id => {
     <AppLayout title="Lessons">
         <template #header>
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">
-                Lessons
+                Lessons 
             </h1>
         </template>
 
@@ -40,24 +40,50 @@ const deleteLesson = id => {
                             CREATE LESSON
                         </Link>
                     </div>
-                
-                <div class="mt-4">
-                    <ul role="list" class="divide-y divide-gray-100">
-                        <li class="flex justify-between gap-x-6 py-3" v-for="lesson in lessons.data">
-                            <div class="flex min-w-0 gap-x-4">
-                                <div class="min-w-0 flex-auto">
-                                    <p class="text-md font-semibold leading-6 text-gray-900">{{ lesson.name }}</p>
-                                </div>
-                            </div>
-                            <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                <p class="text-sm leading-6 text-gray-900  space-x-1.5">
-                                    <Link class="py-2 px-4 bg-indigo-100 rounded-md hover:bg-indigo-300 font-semibold text-xs uppercase" :href="route('lessons.edit', lesson.id)" v-if="$page.props.user.permissions.includes('update lessons')">Edit</Link>
-                                    <Link class="py-2 px-4 text-red-600 font-semibold text-xs uppercase bg-indigo-100 rounded-md hover:bg-indigo-300" @click="deleteLesson(lesson.id)" v-if="$page.props.user.permissions.includes('delete lessons')">Delete</Link>
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
+
+                <div class="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">ID</th>
+                                <th scope="col" class="px-6 py-3">Name</th>
+                                <th scope="col" class="px-6 py-3">Description</th>
+                                <th scope="col" class="px-6 py-3">Imagen</th>
+                                <th scope="col" class="px-6 py-3">ZIP</th>
+                                <th scope="col" class="px-6 py-3">PDF</th>
+                                <th scope="col" class="px-6 py-3">Level</th>
+                                <th scope="col" class="px-6 py-3">Free</th>
+                                <th scope="col" class="px-6 py-3"></th>
+                                <th scope="col" class="px-6 py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="lesson in lessons.data" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ lesson.id }}</th>
+                                <td class="px-6 py-4">{{ lesson.name }}</td>
+                                <td class="px-6 py-4">{{ lesson.description }}</td>
+                                <td class="px-6 py-4">{{ lesson.image_uri }}</td>
+                                <td class="px-6 py-4">{{ lesson.content_uri }}</td>
+                                <td class="px-6 py-4">{{ lesson.pdf_uri }}</td>
+                                <td class="px-6 py-4">{{ lesson.level }}</td>
+                                <td class="px-6 py-4">{{ lesson.is_free ? 'Yes' : 'No' }}</td>
+                                <td><Link class="py-2 px-4 bg-indigo-100 rounded-md hover:bg-indigo-300 font-semibold text-xs uppercase" :href="route('lessons.edit', lesson.id)" 
+                                    v-if="$page.props.user.permissions.includes('update lessons')">Edit</Link>
+                                </td>
+                                <td><button class="py-2 px-4 text-red-600 font-semibold text-xs uppercase bg-indigo-100 rounded-md hover:bg-indigo-300" 
+                                    @click="deleteLesson(lesson.id, lesson.name)" v-if="$page.props.user.permissions.includes('delete lessons')">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+
+
+
+
+
+
                     <div class="flex justify-between mt-2">
                         <Link v-if="lessons.current_page > 1" :href="lessons.prev_page_url" class="py-2 px-4 rounded bg-gray-300">
                             PREVIUS

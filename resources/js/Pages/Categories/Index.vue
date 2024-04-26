@@ -52,7 +52,7 @@ const deleteCategory = id => {
                             <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                                 <p class="text-sm leading-6 text-gray-900  space-x-1.5">
                                     <Link class="py-2 px-4 bg-indigo-100 rounded-md hover:bg-indigo-300 font-semibold text-xs uppercase" :href="route('categories.edit', category.id)" v-if="$page.props.user.permissions.includes('update categories')">Edit</Link>
-                                    <Link class="py-2 px-4 text-red-600 font-semibold text-xs uppercase bg-indigo-100 rounded-md hover:bg-indigo-300" @click="deleteCategory(category.id)" v-if="$page.props.user.permissions.includes('delete categories')">Delete</Link>
+                                    <button class="py-2 px-4 text-red-600 font-semibold text-xs uppercase bg-indigo-100 rounded-md hover:bg-indigo-300" @click="deleteCategory(category.id)" v-if="$page.props.user.permissions.includes('delete categories')">Delete</button>
                                 </p>
                             </div>
                         </li>
