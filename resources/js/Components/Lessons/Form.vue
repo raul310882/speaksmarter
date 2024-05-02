@@ -10,6 +10,7 @@ import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import TextInput from '@/Components/TextInput.vue'
+import Checkbox from '../Checkbox.vue'
 import SecondaryButton from '../SecondaryButton.vue'
 import CollectionSelector from '../Common/CollectionSelector.vue'
 import { ref } from 'vue'
@@ -31,10 +32,36 @@ defineProps({
     levels: {
         type: Object,
         required: true
+    },  
+    is_free: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    image:{
+        type: Object,
+        required: false
+    },
+    pdf: {
+        type: Object,
+        required: false
     }
 })
-const emit = defineEmits(['changeSelected', 'submit'])
+
+const emit = defineEmits(['changeSelected', 'submit', 'fileSelected', 'imageSelect'])
+const imageSelected = ref([])
 const categoriesSelected = ref([])
+const pdfFile = ref([])
+
+const handleFileChange = (event) => {
+    pdfFile.value = event.target.files[0];
+    emit('fileSelected', pdfFile.value)
+}
+
+const handleImageChange = (event) => {
+    imageSelected.value = event.target.files[0];
+    emit('imageSelect', imageSelected.value)
+}
 
 const onCategories = (_categories) => {
     categoriesSelected.value = _categories
@@ -65,10 +92,23 @@ const onCategories = (_categories) => {
                 <InputLabel for="content_uri" value="Content URI" />
                 <TextInput id="content_uri" v-model="form.content_uri" type="text" class="mt-1 block w-full" autocomplete="content_uri" />
                 <InputError :message="$page.props.errors.content_uri" class="mt-2" />
-                <br>
-                <SecondaryButton class="mt-2 mr-2" type="button">Upload PDF</SecondaryButton>
-                <InputError :message="$page.props.errors.pdf_uri" class="mt-2" />
-                <br>
+                <div class="w-full mt-5">
+                    <div class="flex">
+                        <div class="w-1/2">
+                            <InputLabel for="pdf" value="PDF" />
+                            <input class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150" 
+                            type="file" @change="handleFileChange" />
+                            <InputError :message="$page.props.errors.pdf_uri" class="mt-2" />
+                        </div>
+                        <div class="w-1/2">
+                            <InputLabel for="image" value="Imagen" />
+                            <input name="image" id="image"
+                            class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150" 
+                            type="file" @change="handleImageChange" />
+                            <InputError :message="$page.props.errors.image_uri" class="mt-2" />
+                        </div>
+                    </div>
+                </div>
                 <div class="w-full mt-5">
                     <div class="flex">
                         <div class="w-1/2">
@@ -79,10 +119,14 @@ const onCategories = (_categories) => {
                             <InputError :message="$page.props.errors.level_id" class="mt-2" />
                         </div>
                         <div class="w-1/2">
-                            <InputLabel for="categories" value="Category" />
-                            <CollectionSelector name="categories" id="categories" :collection="categories" @onCategories="onCategories"></CollectionSelector>
+                            <InputLabel value="Category" for="categories" />
+                            <CollectionSelector id="categories" name="categories" :collection="categories" @onCategories="onCategories"></CollectionSelector>
                         </div>
                     </div>
+                </div>
+                <div class="inline-flex w-full mt-5">
+                    <Checkbox class="py-2 mx-2" name="is_free" id="is_free" v-model:checked="form.is_free" />
+                    <InputLabel for="is_free" value="Is free?" />
                 </div>
             </div>
         </template>
@@ -93,3 +137,5 @@ const onCategories = (_categories) => {
         </template> 
     </FormSection>
 </template>
+
+

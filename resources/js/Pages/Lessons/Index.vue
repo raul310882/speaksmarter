@@ -8,6 +8,8 @@ export default {
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link } from "@inertiajs/vue3";
 import { Inertia } from "@inertiajs/inertia";
+import { ref } from "vue";
+
 
 defineProps({
     lessons: {
@@ -22,16 +24,28 @@ const deleteLesson = (id, name) => {
     }
 }
 
+const srcImage = ref([
+    {
+        id: 1,
+        url: require ("@/storage/image_lessons/1714684080.jpg")
+    }
+])
+
+console.log(srcImage)
+
 </script>
 
 <template>
     <AppLayout title="Lessons">
         <template #header>
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">
-                Lessons 
+                Lessons
             </h1>
         </template>
-
+        <img :src="srcImage.url" />
+        <pre>
+            {{srcImage}}
+        </pre>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -52,6 +66,7 @@ const deleteLesson = (id, name) => {
                                 <th scope="col" class="px-6 py-3">ZIP</th>
                                 <th scope="col" class="px-6 py-3">PDF</th>
                                 <th scope="col" class="px-6 py-3">Level</th>
+                                <th scope="col" class="px-6 py-3">Categories</th>
                                 <th scope="col" class="px-6 py-3">Free</th>
                                 <th scope="col" class="px-6 py-3"></th>
                                 <th scope="col" class="px-6 py-3"></th>
@@ -63,10 +78,16 @@ const deleteLesson = (id, name) => {
                                     {{ lesson.id }}</th>
                                 <td class="px-6 py-4">{{ lesson.name }}</td>
                                 <td class="px-6 py-4">{{ lesson.description }}</td>
-                                <td class="px-6 py-4">{{ lesson.image_uri }}</td>
+                                <td class="px-6 py-4"><img src="" /></td>
                                 <td class="px-6 py-4">{{ lesson.content_uri }}</td>
                                 <td class="px-6 py-4">{{ lesson.pdf_uri }}</td>
                                 <td class="px-6 py-4">{{ lesson.level }}</td>
+                                <td class="px-6 py-4">
+                                    <ul>
+                                        <li v-for="category in lesson.categories">{{ category.name }}</li>
+                                    </ul>
+                                </td>
+                                
                                 <td class="px-6 py-4">{{ lesson.is_free ? 'Yes' : 'No' }}</td>
                                 <td><Link class="py-2 px-4 bg-indigo-100 rounded-md hover:bg-indigo-300 font-semibold text-xs uppercase" :href="route('lessons.edit', lesson.id)" 
                                     v-if="$page.props.user.permissions.includes('update lessons')">Edit</Link>
@@ -78,12 +99,6 @@ const deleteLesson = (id, name) => {
                         </tbody>
                     </table>
                 </div>
-
-
-
-
-
-
                     <div class="flex justify-between mt-2">
                         <Link v-if="lessons.current_page > 1" :href="lessons.prev_page_url" class="py-2 px-4 rounded bg-gray-300">
                             PREVIUS

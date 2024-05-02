@@ -9,8 +9,7 @@
     import AppLayout from '@/Layouts/AppLayout.vue'
     import LessonForm from '../../Components/Lessons/Form.vue'
     import { ref } from 'vue'
-    //import CategoryForm from '@/Categories/Form.vue'
-    //import { useForm } from '@inertiajs/inertia-vue3'
+ 
     defineProps({
         categories: {
             type: Object,
@@ -26,15 +25,32 @@
         description: '',
         content_uri: '',
         level_id: 0,
-        categories: []
+        categories: [],
+        is_free: false,
+        image: null,
+        pdf: null
     })
 
     const categories_select = ref([])
+    const file_select = ref([])
+    const image_select = ref([])
 
     const handleSelect = (_categories_selected) => {
     categories_select.value = _categories_selected
     form.categories = categories_select.value
-}
+    }
+
+    const handleFile = (_file_selected) => {
+    file_select.value = _file_selected
+    form.pdf = file_select.value
+    }
+
+    const handleImage = (_image_selected) => {
+    image_select.value = _image_selected
+    form.image = image_select.value
+    }
+
+//form.post(route('lessons.store'))
 
 </script>
 
@@ -48,7 +64,9 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <LessonForm :form="form" :categories="categories" :levels="levels" @changeSelected="handleSelect" @submit="form.post(route('lessons.store'))" />   
+                            <LessonForm 
+                            :form="form" :categories="categories" :levels="levels" 
+                            @changeSelected="handleSelect" @fileSelected="handleFile" @imageSelect="handleImage" @submit="form.post(route('lessons.store'))" />   
                         </div>
                     </div>
                 </div>

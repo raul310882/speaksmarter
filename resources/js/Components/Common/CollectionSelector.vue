@@ -29,7 +29,7 @@ const handleRemoveSelection = (index) => {
 <template>
     <div class="w-full">
         <div class="flex">
-            <select v-model="currentSelection" 
+            <select v-model="currentSelection" id="categories" name="categories"
             class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mr-1">
                 <option v-for="(item, index) in collection" :key="index" :value="item">{{ item?.name }}</option>
             </select>

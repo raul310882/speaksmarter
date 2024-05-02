@@ -18,8 +18,10 @@ class LessonController extends Controller
     public function index()
     {
         $lessons = Lesson::select('lessons.id', 'lessons.name', 'lessons.description', 'lessons.image_uri', 'lessons.content_uri', 'lessons.pdf_uri', 'lessons.level_id',
-        'lessons.is_free', 'levels.name as level')->join('levels', 'levels.id', '=', 'lessons.level_id')->orderBy('lessons.id')
-        ->paginate(self::NUMBER_OF_ITEMS_PER_PAGE);
+        'lessons.is_free', 'levels.name as level')->join('levels', 'levels.id', '=', 'lessons.level_id')->with('categories')
+        -> orderBy('lessons.id')
+        -> paginate(self::NUMBER_OF_ITEMS_PER_PAGE);
+
         return inertia('Lessons/Index', ['lessons' => $lessons]);
     }
 
@@ -38,10 +40,25 @@ class LessonController extends Controller
      */
     public function store(LessonRequest $request)
     {
-        Lesson::create($request->validated())   //guardado de la lesson
-        ->categories()->attach(array_column($request->categories,'id'));   //guardado en la tabla pivote category_lesson
-        return redirect()->route('lessons.index');
+        $lesson = new Lesson;
+
+        $lesson->pdf_uri = time().'.'.$request->pdf->extension();   //nombre de archivo PDF unico
+
+        $lesson->image_uri = time().'.'.$request->image->extension();   //nombre de archivo IMAGEN unico
         
+        $request->pdf->storeAs('public/pdf_lessons', $lesson->pdf_uri);   //guardado del PDF en storage de la aplicacion
+        $request->image->storeAs('public/image_lessons', $lesson->image_uri);   //guardado de la IMAGEN en storage de la aplicacion
+
+        $lesson->name = $request->name;                             //guardado de datos de la lesson
+        $lesson->description = $request->description;
+        $lesson->content_uri = $request->content_uri;
+        $lesson->level_id = $request->level_id;
+        $lesson->is_free = $request->is_free;
+        $lesson->save();
+
+        $lesson->categories()->attach(array_column($request->categories,'id'));  //guardado en la tabla pivot category_lesson
+
+        return redirect()->route('lessons.index');   
     }
 
     /**

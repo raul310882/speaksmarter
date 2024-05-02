@@ -25,7 +25,8 @@ class LessonRequest extends FormRequest
             'name' => 'required|string|max:100',
             'description' => 'required|string|max:150',
             'content_uri' => 'required|string|max:150',
-            'level_id' => 'required'
+            'level_id' => 'required',
+            'is_free' => 'required|boolean',
         ];
     }
 }
