@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Lesson;
 use App\Models\Level;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
 
 class LessonController extends Controller
@@ -90,8 +91,12 @@ class LessonController extends Controller
      */
     public function destroy(Lesson $lesson)
     {
-        $lesson -> categories() -> detach();
-        $lesson->delete();
+        $lesson_files = Lesson::find($lesson);  // buscar registro a eliminar
+        Storage::delete('public/image_lessons/'.$lesson_files[0]->image_uri);   //eliminar imagen
+        Storage::delete('public/pdf_lessons/'.$lesson_files[0]->pdf_uri);   //eliminar pdf
+     
+        $lesson -> categories() -> detach();    //eliminar registros de la tabla pivote
+        $lesson->delete();                      //eliminar registro de la tabla lesson
         return redirect()->route('lessons.index');
     }
 }

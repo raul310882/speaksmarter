@@ -113,14 +113,15 @@ const onCategories = (_categories) => {
                     <div class="flex">
                         <div class="w-1/2">
                             <InputLabel for="level_id" value="Level" />
-                            <select name="level_id" id="level_id" v-model="form.level_id" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                            <select name="level_id" id="level_id" v-model="form.level_id" class="w-full px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <option v-for="level in levels" :value="level.id">{{ level.name }}</option>
                             </select>
                             <InputError :message="$page.props.errors.level_id" class="mt-2" />
                         </div>
                         <div class="w-1/2">
                             <InputLabel value="Category" for="categories" />
-                            <CollectionSelector id="categories" name="categories" :collection="categories" @onCategories="onCategories"></CollectionSelector>
+                            <CollectionSelector class="w-full px-1" id="categories" name="categories" :collection="categories" @onCategories="onCategories"></CollectionSelector>
+                            <InputError :message="$page.props.errors.categories" class="mt-2" />
                         </div>
                     </div>
                 </div>

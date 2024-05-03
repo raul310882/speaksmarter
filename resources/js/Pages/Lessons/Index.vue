@@ -8,8 +8,6 @@ export default {
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link } from "@inertiajs/vue3";
 import { Inertia } from "@inertiajs/inertia";
-import { ref } from "vue";
-
 
 defineProps({
     lessons: {
@@ -24,15 +22,6 @@ const deleteLesson = (id, name) => {
     }
 }
 
-const srcImage = ref([
-    {
-        id: 1,
-        url: require ("@/storage/image_lessons/1714684080.jpg")
-    }
-])
-
-console.log(srcImage)
-
 </script>
 
 <template>
@@ -42,10 +31,6 @@ console.log(srcImage)
                 Lessons
             </h1>
         </template>
-        <img :src="srcImage.url" />
-        <pre>
-            {{srcImage}}
-        </pre>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -78,9 +63,17 @@ console.log(srcImage)
                                     {{ lesson.id }}</th>
                                 <td class="px-6 py-4">{{ lesson.name }}</td>
                                 <td class="px-6 py-4">{{ lesson.description }}</td>
-                                <td class="px-6 py-4"><img src="" /></td>
+                                <td class="px-6 py-4">
+                                    <div v-if="lesson.image_uri">
+                                        <img alt="img-lesson" v-bind:src="'/storage/image_lessons/' + lesson.image_uri" width="60px" />
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4">{{ lesson.content_uri }}</td>
-                                <td class="px-6 py-4">{{ lesson.pdf_uri }}</td>
+                                <td class="px-6 py-4">
+                                    <a v-bind:href="'/storage/pdf_lessons/' + lesson.pdf_uri" target="_blank">
+                                        {{ lesson.pdf_uri }}
+                                    </a>
+                                </td>
                                 <td class="px-6 py-4">{{ lesson.level }}</td>
                                 <td class="px-6 py-4">
                                     <ul>
