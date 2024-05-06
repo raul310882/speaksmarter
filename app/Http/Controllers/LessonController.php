@@ -73,9 +73,9 @@ class LessonController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Lesson $lesson)
     {
-        //
+        return inertia('Lessons/Edit', ['lesson' => $lesson]);
     }
 
     /**

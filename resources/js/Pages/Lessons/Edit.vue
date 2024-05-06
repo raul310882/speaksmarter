@@ -17,22 +17,22 @@ const props = defineProps({
     })
 
 const form = useForm({
-    name: props.category.name
+    name: props.lesson.name
 })
 
 </script>
 
 <template>
-    <AppLayout title="Edit Category">
+    <AppLayout title="Edit Lesson">
         <template #header>
-            <h1 class="font-semibold text-xl text-gray-800 leading-tight">Edit Category</h1>
+            <h1 class="font-semibold text-xl text-gray-800 leading-tight">Edit Lesson</h1>
         </template>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <CategoryForm :updating="true" :form="form" @submit="form.put(route('categories.update', category.id))" />
+                            <CategoryForm :updating="true" :form="form" @submit="form.put(route('lessons.update', lesson.id))" />
                         </div>
                     </div>
                 </div>
