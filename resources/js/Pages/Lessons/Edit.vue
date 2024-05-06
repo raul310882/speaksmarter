@@ -1,25 +1,54 @@
 <script>
 export default {
-    name: 'CategoryEdit'
+    name: 'LessonEdit'
 }
 </script>
 
 <script setup>
     import { useForm } from '@inertiajs/vue3'
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import CategoryForm from '../../Components/Categories/Form.vue'
+    import LessonForm from '../../Components/Lessons/Form.vue'
+    import { ref } from 'vue'
 
 const props = defineProps({
-    category: {
+    lesson: {
+        type: Object,
+        required: true
+    },
+    levels: {
+        type: Object,
+        required: true
+    },
+    categories: {
         type: Object,
         required: true
     }
     })
 
+if (props.lesson.is_free === 1){
+    props.lesson.is_free = true
+} else {
+    props.lesson.is_free = false
+}
+ 
 const form = useForm({
-    name: props.lesson.name
+    name: props.lesson.name,
+    description: props.lesson.description,
+    content_uri: props.lesson.content_uri,
+    pdf_uri: props.lesson.pdf_uri,
+    level_id: props.lesson.level_id,
+    level: props.lesson.level.name,
+    categories: props.lesson.categories,
+    is_free: props.lesson.is_free
+
 })
 
+const categories_select = ref([])
+
+const handleSelect = (_categories_selected) => {
+    categories_select.value = _categories_selected
+    form.categories = categories_select.value
+}
 </script>
 
 <template>
@@ -32,7 +61,9 @@ const form = useForm({
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <CategoryForm :updating="true" :form="form" @submit="form.put(route('lessons.update', lesson.id))" />
+                            <LessonForm :updating="true" :form="form" :levels="levels" 
+                            :categories="categories" @changeSelected="handleSelect"
+                            @submit="form.put(route('lessons.update', lesson.id))" />
                         </div>
                     </div>
                 </div>

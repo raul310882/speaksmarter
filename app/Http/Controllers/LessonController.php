@@ -75,15 +75,19 @@ class LessonController extends Controller
      */
     public function edit(Lesson $lesson)
     {
-        return inertia('Lessons/Edit', ['lesson' => $lesson]);
+        $levels = Level::all();
+        $categories = Category::all();
+        $lesson->level;
+        $lesson->categories;
+        return inertia('Lessons/Edit', ['lesson' => $lesson, 'levels' => $levels, 'categories' => $categories]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Lesson $lesson)
     {
-        //
+        dd ($lesson);
     }
 
     /**

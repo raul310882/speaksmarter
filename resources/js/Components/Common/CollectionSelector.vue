@@ -2,16 +2,30 @@
 
 import { ref } from 'vue'
 
-defineProps({
+const props = defineProps({
     collection: {
         type: Array,
         required: true
+    },
+    selected: {
+        type: Array,
+        required: false
+    },
+    updating: {
+        type: Boolean,
+        required: false
     }
 })
 
 const currentSelection = ref(1)
 const selection = ref([])
 const emit = defineEmits(['onCategories'])
+
+//categories_selected ? selection=categories_selected : selection.value = []
+
+ if ( props.updating ) {
+   selection.value = props.selected
+} 
 
 const handleAddToSelection = () => {
     if(selection.value.find(item => item.id === currentSelection.value.id)) return // validacion para no agregar elementos duplicados
