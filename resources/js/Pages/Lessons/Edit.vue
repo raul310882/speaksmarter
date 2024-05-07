@@ -52,7 +52,7 @@ const handleSelect = (_categories_selected) => {
 </script>
 
 <template>
-    <AppLayout title="Edit Lesson">
+    <AppLayout title="Edit Lesson"> {{ lesson.id }}
         <template #header>
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">Edit Lesson</h1>
         </template>

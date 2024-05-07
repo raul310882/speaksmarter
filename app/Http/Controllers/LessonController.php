@@ -85,9 +85,19 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Lesson $lesson)
+    public function update(LessonRequest $request, $lesson_id)
     {
-        dd ($lesson);
+        $lesson = Lesson::find($lesson_id);
+        $lesson->name = $request->name;                             //guardado de datos de la lesson
+        $lesson->description = $request->description;
+        $lesson->content_uri = $request->content_uri;
+        $lesson->level_id = $request->level_id;
+        $lesson->is_free = $request->is_free;
+        $lesson->save();
+
+        $lesson->categories()->sync(array_column($request->categories, 'id'));
+        return redirect()->route('lessons.index');
+
     }
 
     /**
