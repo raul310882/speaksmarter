@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illiminate\Validation\Rule;
+use Illuminate\Validation\Rule as ValidationRule;
 
 class LessonRequest extends FormRequest
 {
@@ -22,11 +24,25 @@ class LessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100',
-            'description' => 'required|string|max:150',
-            'content_uri' => 'required|string|max:150',
-            'level_id' => 'required',
+            'name' => ['required', 'string', 'max:100', ValidationRule::unique(table: 'lessons', column: 'name')->ignore(id: request('lesson'), idColumn: 'id')],
+            'description' => ['required', 'string', 'max:150'],
+            'level_id' => ['required', 'exists:levels,id'],
+            'categories' => ['required'],
+            'content' => ['required', 'file', 'extensions:zip'],
+            'pdf' => ['required', 'file', 'extensions:pdf'],
+            'image' => ['required', 'image']
+
+
+           /*  'description' => 'required|string|max:150',
+            'level_id' => 'required|exists:levels',
             'is_free' => 'required|boolean',
+             */
         ];
     }
 }
+        /* level_id: 0,
+        categories: [],
+        is_free: false,
+        image: null,
+        pdf: null,
+        content: null */

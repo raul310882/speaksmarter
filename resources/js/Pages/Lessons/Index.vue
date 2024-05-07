@@ -48,7 +48,7 @@ const deleteLesson = (id, name) => {
                                 <th scope="col" class="px-6 py-3">Name</th>
                                 <th scope="col" class="px-6 py-3">Description</th>
                                 <th scope="col" class="px-6 py-3">Imagen</th>
-                                <th scope="col" class="px-6 py-3">ZIP</th>
+                                <th scope="col" class="px-6 py-3">Content</th>
                                 <th scope="col" class="px-6 py-3">PDF</th>
                                 <th scope="col" class="px-6 py-3">Level</th>
                                 <th scope="col" class="px-6 py-3">Categories</th>
@@ -68,7 +68,11 @@ const deleteLesson = (id, name) => {
                                         <img alt="img-lesson" v-bind:src="'/storage/image_lessons/' + lesson.image_uri" width="60px" />
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">{{ lesson.content_uri }}</td>
+                                <td class="px-6 py-4">
+                                    <a v-bind:href="'/storage/content_lessons/' + lesson.content_uri" target="_blank">
+                                        {{ lesson.content_uri }}
+                                    </a>
+                                </td>
                                 <td class="px-6 py-4">
                                     <a v-bind:href="'/storage/pdf_lessons/' + lesson.pdf_uri" target="_blank">
                                         {{ lesson.pdf_uri }}

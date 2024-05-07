@@ -41,25 +41,28 @@ class LessonController extends Controller
      */
     public function store(LessonRequest $request)
     {
+        //dd ($request);
         $lesson = new Lesson;
 
         $lesson->pdf_uri = time().'.'.$request->pdf->extension();   //nombre de archivo PDF unico
 
         $lesson->image_uri = time().'.'.$request->image->extension();   //nombre de archivo IMAGEN unico
+
+        $lesson->content_uri = time().'.'.$request->content->extension();   //nombre de archivo ZIP unico
         
         $request->pdf->storeAs('public/pdf_lessons', $lesson->pdf_uri);   //guardado del PDF en storage de la aplicacion
         $request->image->storeAs('public/image_lessons', $lesson->image_uri);   //guardado de la IMAGEN en storage de la aplicacion
+        $request->content->storeAs('public/content_lessons', $lesson->content_uri);  //guardado de CONTENT en storage de la aplicacion
 
         $lesson->name = $request->name;                             //guardado de datos de la lesson
         $lesson->description = $request->description;
-        $lesson->content_uri = $request->content_uri;
         $lesson->level_id = $request->level_id;
         $lesson->is_free = $request->is_free;
         $lesson->save();
 
         $lesson->categories()->attach(array_column($request->categories,'id'));  //guardado en la tabla pivot category_lesson
 
-        return redirect()->route('lessons.index');   
+        return redirect()->route('lessons.index'); 
     }
 
     /**

@@ -28,12 +28,14 @@
         categories: [],
         is_free: false,
         image: null,
-        pdf: null
+        pdf: null,
+        content: null
     })
 
     const categories_select = ref([])
     const file_select = ref([])
     const image_select = ref([])
+    const content_select = ref([])
 
     const handleSelect = (_categories_selected) => {
     categories_select.value = _categories_selected
@@ -48,6 +50,11 @@
     const handleImage = (_image_selected) => {
     image_select.value = _image_selected
     form.image = image_select.value
+    }
+
+    const handleContent = (_content_selected) => {
+    content_select.value = _content_selected
+    form.content = content_select.value
     }
 
 //form.post(route('lessons.store'))
@@ -66,7 +73,9 @@
                         <div class="p-6 bg-white border-b border-gray-200">
                             <LessonForm 
                             :form="form" :categories="categories" :levels="levels" 
-                            @changeSelected="handleSelect" @fileSelected="handleFile" @imageSelect="handleImage" @submit="form.post(route('lessons.store'))" />   
+                            @changeSelected="handleSelect" @fileSelected="handleFile" 
+                            @imageSelect="handleImage" @contentSelect="handleContent"
+                            @submit="form.post(route('lessons.store'))" />   
                         </div>
                     </div>
                 </div>

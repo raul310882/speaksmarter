@@ -21,8 +21,6 @@ const currentSelection = ref(1)
 const selection = ref([])
 const emit = defineEmits(['onCategories'])
 
-//categories_selected ? selection=categories_selected : selection.value = []
-
  if ( props.updating ) {
    selection.value = props.selected
 } 
