@@ -2,11 +2,7 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-    extension: {
-        type: String,
-        required: true
-    },
-    extensionFile: {
+   extensionFile: {
         type: String,
         required: true
     }
@@ -17,14 +13,14 @@ const fileSelect = ref([])
 
 const handleFileChange = (event) => {
     fileSelect.value = event.target.files[0];
-    console.log(props.extensionFile)
-    if (fileSelect.value.type != props.extension) {
+    console.log(fileSelect.value.type)
+    /* if (fileSelect.value.type != props.extension) {
         alert('Please upload file having extensions '+props.extensionFile+' only.');
         event.target.files = null
     } else
-    { 
+    {  */
     emit('fileSelection', fileSelect.value)
-    }
+   // }
 }
 
 </script>

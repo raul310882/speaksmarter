@@ -25,30 +25,54 @@ const props = defineProps({
     }
     })
 
-if (props.lesson.is_free === 1){
-    props.lesson.is_free = true
-} else {
-    props.lesson.is_free = false
-}
- 
+const categories_select = ref([])
+const file_select = ref([])
+const image_select = ref([])
+const content_select = ref([])
+
 const form = useForm({
     name: props.lesson.name,
     description: props.lesson.description,
     content_uri: props.lesson.content_uri,
     pdf_uri: props.lesson.pdf_uri,
+    image_uri: props.lesson.image_uri,
     level_id: props.lesson.level_id,
     level: props.lesson.level.name,
     categories: props.lesson.categories,
-    is_free: props.lesson.is_free
-
+    is_free: props.lesson.is_free,
+    updating: true,
+    image_update: null,
+    pdf_update: null,
+    content_update: null
 })
-
-const categories_select = ref([])
 
 const handleSelect = (_categories_selected) => {
     categories_select.value = _categories_selected
     form.categories = categories_select.value
 }
+
+if (props.lesson.is_free === 1){
+    props.lesson.is_free = true
+} else {
+    props.lesson.is_free = false
+}
+
+const handleFile = (_file_selected) => {
+file_select.value = _file_selected
+form.pdf_update = file_select.value
+}
+
+const handleImage = (_image_selected) => {
+image_select.value = _image_selected
+form.image_update = image_select.value
+}
+
+const handleContent = (_content_selected) => {
+content_select.value = _content_selected
+form.content_update = content_select.value
+}
+
+
 </script>
 
 <template>
@@ -63,6 +87,8 @@ const handleSelect = (_categories_selected) => {
                         <div class="p-6 bg-white border-b border-gray-200">
                             <LessonForm :updating="true" :form="form" :levels="levels" 
                             :categories="categories" @changeSelected="handleSelect"
+                            @fileSelected="handleFile" @imageSelect="handleImage" 
+                            @contentSelect="handleContent"
                             @submit="form.put(route('lessons.update', lesson.id))" />
                         </div>
                     </div>

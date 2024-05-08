@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illiminate\Validation\Rule;
 use Illuminate\Validation\Rule as ValidationRule;
 
 class LessonRequest extends FormRequest
@@ -28,21 +27,12 @@ class LessonRequest extends FormRequest
             'description' => ['required', 'string', 'max:150'],
             'level_id' => ['required', 'exists:levels,id'],
             'categories' => ['required'],
-            'content' => ['required', 'file', 'extensions:zip'],
-            'pdf' => ['required', 'file', 'extensions:pdf'],
-            'image' => ['required', 'image']
-
-
-           /*  'description' => 'required|string|max:150',
-            'level_id' => 'required|exists:levels',
-            'is_free' => 'required|boolean',
-             */
+            'content' => ['excludeIf:updating,true', 'required', 'file', 'extensions:zip'],
+            'pdf' => ['excludeIf:updating,true', 'required', 'file', 'extensions:pdf'],
+            'image' => ['excludeIf:updating,true', 'required', 'image'],
+            'content_update' => ['excludeIf:updating,false', 'nullable', 'file', 'extensions:zip'],
+            'pdf_update' => ['excludeIf:updating,false', 'nullable', 'file', 'extensions:pdf'],
+            'image_update' => ['excludeIf:updating,false', 'nullable', 'image']
         ];
     }
 }
-        /* level_id: 0,
-        categories: [],
-        is_free: false,
-        image: null,
-        pdf: null,
-        content: null */

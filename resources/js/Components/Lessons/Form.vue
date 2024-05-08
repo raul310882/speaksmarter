@@ -53,13 +53,13 @@ const categoriesSelected = ref([])
 const pdfFile = ref([])
 const file_select = ref([])
 
-const handleFileChange = (event) => {
-    pdfFile.value = event.target.files[0];
+const handleFileChange = (_pdf_selected) => {
+    pdfFile.value = _pdf_selected;
     emit('fileSelected', pdfFile.value)
 }
 
-const handleImageChange = (event) => {
-    imageSelected.value = event.target.files[0];
+const handleImageChange = (_image_selected) => {
+    imageSelected.value = _image_selected;
     emit('imageSelect', imageSelected.value)
 }
 
@@ -78,10 +78,10 @@ const onCategories = (_categories) => {
 <template>
     <FormSection>
         <template #title>
-            {{ updating ? 'Update Lesson' : 'Create New Lesson' }} {{ form.is_free }}
+            {{ updating ? 'Update Lesson' : 'Create New Lesson' }}
         </template>
         <template #description>
-            {{ updating ? 'Update The Selected Lesson' : 'Create a New Lesson from Scratch' }} {{ $page.props }}
+            {{ updating ? 'Update The Selected Lesson' : 'Create a New Lesson from Scratch' }}
         </template>
         <template #form>
             <div class="col-span-6 sm:col-span-6">
@@ -120,16 +120,29 @@ const onCategories = (_categories) => {
                 <div class="w-full mt-5">
                     <div class="flex mt-5">
                         <div class="w-1/2"> 
-                            <InputLabel for="content_uri" value="Content" />
-                            <FileSelector id="content_uri" name="content_uri" :extension="'application/x-zip-compressed'" :extensionFile="'.zip'" 
+                            <InputLabel v-if="updating" for="content_uri" value="Update Content" />
+                            <InputLabel v-else for="content_uri" value="Content" />
+                            <FileSelector id="content_uri" name="content_uri" :extensionFile="'.zip'" 
                             @fileSelection="handleFileContent"></FileSelector>
+                            <div v-if="updating">
+                                <span class="text-xs">Actually</span>
+                                <a class="text-xs bg-indigo-300 rounded hover:bg-indigo-800 py-2 px-2 ml-1 mt-1 mb-1" 
+                                v-if="updating" v-bind:href="'/storage/content_lessons/' + form.content_uri" target="_blank">
+                                {{ form.content_uri }}</a>
+                            </div>
                             <InputError :message="$page.props.errors.content" class="mt-2" />
                         </div>
                         <div class="w-1/2">
-                            <InputLabel for="pdf" value="PDF" />
-                            <input name="pdf" id="pdf" 
-                            class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150" 
-                            type="file" @change="handleFileChange" />
+                            <InputLabel v-if="updating" for="pdf" value="Update PDF" />
+                            <InputLabel v-else for="pdf" value="PDF" />
+                            <FileSelector id="pdf_uri" name="pdf_uri" :extensionFile="'.pdf'" 
+                            @fileSelection="handleFileChange"></FileSelector>
+                            <div v-if="updating">
+                                <span class="text-xs">Actually</span>
+                                <a class="text-xs bg-indigo-300 rounded hover:bg-indigo-800 py-2 px-2 ml-1 mt-1 mb-1" 
+                                v-if="updating" v-bind:href="'/storage/content_lessons/' + form.pdf_uri" target="_blank">
+                                {{ form.pdf_uri }}</a>
+                            </div>
                             <InputError :message="$page.props.errors.pdf" class="mt-2" />
                         </div>
                     </div>
@@ -138,10 +151,14 @@ const onCategories = (_categories) => {
                 <div class="w-full mt-5">
                     <div class="flex mt-5">
                         <div class="w-1/2"> 
-                            <InputLabel for="image" value="Imagen" />
-                            <input name="image" id="image"
-                            class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150" 
-                            type="file" @change="handleImageChange" />
+                            <InputLabel v-if="updating" for="image" value="Update Image" />
+                            <InputLabel v-else for="image" value="Imagen" />
+                            <FileSelector id="image" name="image" :extensionFile="'.jpg, .jpeg, .png, .bmp, .gif, .svg, .webp'" 
+                            @fileSelection="handleImageChange"></FileSelector>
+                            <div v-if="updating">
+                                <span class="text-xs">Actually</span>
+                                <img alt="img-lesson" v-bind:src="'/storage/image_lessons/' + form.image_uri" width="100px" />
+                            </div>
                             <InputError :message="$page.props.errors.image" class="mt-2" />
                         </div>
                         <div class="w-1/2 inline-flex mt-7">
