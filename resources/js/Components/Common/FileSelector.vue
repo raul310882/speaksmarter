@@ -12,8 +12,7 @@ const emit = defineEmits(['fileSelection'])
 const fileSelect = ref([])
 
 const handleFileChange = (event) => {
-    fileSelect.value = event.target.files[0];
-    console.log(fileSelect.value.type)
+    fileSelect.value = event.target.files[0]
     /* if (fileSelect.value.type != props.extension) {
         alert('Please upload file having extensions '+props.extensionFile+' only.');
         event.target.files = null

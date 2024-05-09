@@ -85,7 +85,7 @@ const onCategories = (_categories) => {
         </template>
         <template #form>
             <div class="col-span-6 sm:col-span-6">
-                <div class="w-full mt-5">
+                <div class="w-full">
                     <InputLabel for="name" value="Name" />
                     <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" autocomplete="name" />
                     <InputError :message="$page.props.errors.name" class="mt-2" />
