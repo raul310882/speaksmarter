@@ -9,6 +9,8 @@ export default {
     import AppLayout from '@/Layouts/AppLayout.vue'
     import LessonForm from '../../Components/Lessons/Form.vue'
     import { ref } from 'vue'
+    import { router } from '@inertiajs/vue3'
+    import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps({
     lesson: {
@@ -41,9 +43,12 @@ const form = useForm({
     categories: props.lesson.categories,
     is_free: props.lesson.is_free,
     updating: true,
-    image_update: null,
-    pdf_update: null,
-    content_update: null
+    image: null,
+    image_update: false,
+    pdf: null,
+    pdf_update: false,
+    content: null,
+    content_update: false
 })
 
 const handleSelect = (_categories_selected) => {
@@ -51,25 +56,33 @@ const handleSelect = (_categories_selected) => {
     form.categories = categories_select.value
 }
 
-if (props.lesson.is_free === 1){
-    props.lesson.is_free = true
-} else {
-    props.lesson.is_free = false
-}
-
 const handleFile = (_file_selected) => {
 file_select.value = _file_selected
-form.pdf_update = file_select.value
+form.pdf = file_select.value
+form.pdf_update = true
 }
 
 const handleImage = (_image_selected) => {
 image_select.value = _image_selected
-form.image_update = image_select.value
+form.image= image_select.value
+form.image_update = true
 }
 
 const handleContent = (_content_selected) => {
 content_select.value = _content_selected
-form.content_update = content_select.value
+form.content = content_select.value
+form.content_update = true
+}
+
+const handleSend = id => {
+   /*  form.post(`/lessons/update/${id}`, {
+        _method: 'put',
+        lesson: form,
+    })  */
+    router.post(`/lessons/${id}`, {
+        _method: 'put',
+        lesson: form,
+    })
 }
 
 
@@ -89,7 +102,7 @@ form.content_update = content_select.value
                             :categories="categories" @changeSelected="handleSelect"
                             @fileSelected="handleFile" @imageSelect="handleImage" 
                             @contentSelect="handleContent"
-                            @submit="form.put(route('lessons.update', lesson.id))" />
+                            @send="handleSend(lesson.id)" />
                         </div>
                     </div>
                 </div>

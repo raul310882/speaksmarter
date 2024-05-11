@@ -25,7 +25,10 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
     Route::resource('/categories', CategoryController::class);
+   /*  Route::get('/lessons', [LessonController::class, 'index'])->name('lessons.index');
+    Route::post('/lessons/create', [LessonController::class, 'create'])->name('lessons.create');
+    Route::get('/lessons/edit', [LessonController::class, 'edit'])->name('lessons.edit'); */
     Route::resource('/lessons', LessonController::class);
     Route::resource('/roles', RoleController::class);
-
+    
 });

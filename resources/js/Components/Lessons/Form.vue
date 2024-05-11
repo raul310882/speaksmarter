@@ -32,7 +32,7 @@ defineProps({
     levels: {
         type: Object,
         required: true
-    },  
+    }/* ,  
     content: {
         type: Object,
         required: false
@@ -44,10 +44,10 @@ defineProps({
     pdf: {
         type: Object,
         required: false
-    }
+    } */
 })
 
-const emit = defineEmits(['changeSelected', 'submit', 'fileSelected', 'imageSelect', 'contentSelect'])
+const emit = defineEmits(['changeSelected', 'send', 'fileSelected', 'imageSelect', 'contentSelect'])
 const imageSelected = ref([])
 const categoriesSelected = ref([])
 const pdfFile = ref([])
@@ -72,16 +72,15 @@ const onCategories = (_categories) => {
     categoriesSelected.value = _categories
     emit('changeSelected', categoriesSelected.value)
 }
-
 </script>
 
 <template>
-    <FormSection>
+    <FormSection >   <!-- @submitted="$emit('submit')" -->
         <template #title>
-            {{ updating ? 'Update Lesson' : 'Create New Lesson' }}
+            {{ updating ? 'Update Lesson' : 'Create New Lesson' }}{{ form }}
         </template>
         <template #description>
-            {{ updating ? 'Update The Selected Lesson' : 'Create a New Lesson from Scratch' }}
+            {{ updating ? 'Update The Selected Lesson' : 'Create a New Lesson from Scratch' }}{{ $page.props.errors }}
         </template>
         <template #form>
             <div class="col-span-6 sm:col-span-6">
@@ -153,8 +152,8 @@ const onCategories = (_categories) => {
                         <div class="w-1/2"> 
                             <InputLabel v-if="updating" for="image" value="Update Image" />
                             <InputLabel v-else for="image" value="Imagen" />
-                            <FileSelector id="image" name="image" :extensionFile="'.jpg, .jpeg, .png, .bmp, .gif, .svg, .webp'" 
-                            @fileSelection="handleImageChange"></FileSelector>
+                            <FileSelector id="image" name="image" 
+                            @fileSelection="handleImageChange"></FileSelector> <!-- :extensionFile="'.jpg, .jpeg, .png, .bmp, .gif, .svg, .webp'" -->
                             <div v-if="updating">
                                 <span class="text-xs">Actually</span>
                                 <img alt="img-lesson" v-bind:src="'/storage/image_lessons/' + form.image_uri" width="100px" />
@@ -171,7 +170,7 @@ const onCategories = (_categories) => {
             </div>
         </template>
         <template #actions>
-            <PrimaryButton @click="$emit('submit')">
+            <PrimaryButton @click="$emit('send')" >
                 {{ updating ? 'Update' : 'Create' }}
             </PrimaryButton>
         </template> 

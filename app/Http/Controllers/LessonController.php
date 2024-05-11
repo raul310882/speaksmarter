@@ -88,23 +88,24 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(LessonRequest $request, $lesson_id)
+    public function update(Request $request, $lesson_id)
     {
-        //  dd($request);
+        //dd($request->lesson);
         $lesson = Lesson::find($lesson_id);
-        $lesson->name = $request->name;                             //guardado de datos de la lesson
-        $lesson->description = $request->description;
-        $lesson->is_free = $request->is_free;
+        $lesson->name = $request->lesson["name"];                             //guardado de datos de la lesson
+        $lesson->description = $request->lesson["description"];
+        $lesson->level_id = $request->lesson["level_id"];
+        $lesson->is_free = $request->lesson["is_free"];
 
-        if ($request->image_update) {
+        if ($request->lesson["image_update"]) {
             Storage::delete('public/image_lessons/'.$lesson->image_uri);
-            $lesson->image_uri = time().'.'.$request->image->extension();
-            $request->image->storeAs('public/image_lessons', $lesson->image_uri); 
+            $lesson->image_uri = time().'.'.$request->lesson["image"]->extension();
+            $request->lesson["image"]->storeAs('public/image_lessons', $lesson->image_uri); 
         }
 
         $lesson->save();
 
-        $lesson->categories()->sync(array_column($request->categories, 'id'));
+        $lesson->categories()->sync(array_column($request->lesson["categories"], 'id'));
         return redirect()->route('lessons.index');
     }
 

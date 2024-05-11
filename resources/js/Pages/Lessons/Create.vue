@@ -1,6 +1,6 @@
 <script>
     export default {
-        name: 'LessonsCreate'
+        name: 'LessonCreate'
     }
 </script>
 
@@ -75,7 +75,7 @@
                             :form="form" :categories="categories" :levels="levels" 
                             @changeSelected="handleSelect" @fileSelected="handleFile" 
                             @imageSelect="handleImage" @contentSelect="handleContent"
-                            @submit="form.post(route('lessons.store'))" />   
+                            @submit="console.log(form), form.post(route('lessons.store'))" />   
                         </div>
                     </div>
                 </div>
