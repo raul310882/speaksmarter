@@ -43,12 +43,12 @@ const form = useForm({
     categories: props.lesson.categories,
     is_free: props.lesson.is_free,
     updating: true,
-    image: null,
-    image_update: false,
-    pdf: null,
-    pdf_update: false,
-    content: null,
-    content_update: false
+    image_update: null,
+    pdf_update: null,
+    content_update: null,
+    image_update_flag: false,
+    pdf_update_flag: false,
+    content_update_flag: false
 })
 
 const handleSelect = (_categories_selected) => {
@@ -58,38 +58,36 @@ const handleSelect = (_categories_selected) => {
 
 const handleFile = (_file_selected) => {
 file_select.value = _file_selected
-form.pdf = file_select.value
-form.pdf_update = true
+form.pdf_update = file_select.value
+form.pdf_update_flag = true
 }
 
 const handleImage = (_image_selected) => {
 image_select.value = _image_selected
-form.image= image_select.value
-form.image_update = true
+form.image_update= image_select.value
+form.image_update_flag = true
 }
 
 const handleContent = (_content_selected) => {
 content_select.value = _content_selected
-form.content = content_select.value
-form.content_update = true
+form.content_update = content_select.value
+form.content_update_flag = true
 }
 
 const handleSend = id => {
-   /*  form.post(`/lessons/update/${id}`, {
+    console.log(form)
+    form.post(`/lessons/update/${id}`) 
+    /* router.post(`/lessons/${id}`, {
         _method: 'put',
         lesson: form,
-    })  */
-    router.post(`/lessons/${id}`, {
-        _method: 'put',
-        lesson: form,
-    })
+    }) */
 }
 
 
 </script>
 
 <template>
-    <AppLayout title="Edit Lesson"> {{ lesson.id }}
+    <AppLayout title="Edit Lesson">
         <template #header>
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">Edit Lesson</h1>
         </template>

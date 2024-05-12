@@ -77,10 +77,10 @@ const onCategories = (_categories) => {
 <template>
     <FormSection >   <!-- @submitted="$emit('submit')" -->
         <template #title>
-            {{ updating ? 'Update Lesson' : 'Create New Lesson' }}{{ form }}
+            {{ updating ? 'Update Lesson' : 'Create New Lesson' }}
         </template>
         <template #description>
-            {{ updating ? 'Update The Selected Lesson' : 'Create a New Lesson from Scratch' }}{{ $page.props.errors }}
+            {{ updating ? 'Update The Selected Lesson' : 'Create a New Lesson from Scratch' }}
         </template>
         <template #form>
             <div class="col-span-6 sm:col-span-6">
@@ -130,6 +130,7 @@ const onCategories = (_categories) => {
                                 {{ form.content_uri }}</a>
                             </div>
                             <InputError :message="$page.props.errors.content" class="mt-2" />
+                            <InputError :message="$page.props.errors.content_update" class="mt-2" />
                         </div>
                         <div class="w-1/2">
                             <InputLabel v-if="updating" for="pdf" value="Update PDF" />
@@ -143,6 +144,7 @@ const onCategories = (_categories) => {
                                 {{ form.pdf_uri }}</a>
                             </div>
                             <InputError :message="$page.props.errors.pdf" class="mt-2" />
+                            <InputError :message="$page.props.errors.pdf_update" class="mt-2" />
                         </div>
                     </div>
                 </div>
@@ -153,12 +155,13 @@ const onCategories = (_categories) => {
                             <InputLabel v-if="updating" for="image" value="Update Image" />
                             <InputLabel v-else for="image" value="Imagen" />
                             <FileSelector id="image" name="image" 
-                            @fileSelection="handleImageChange"></FileSelector> <!-- :extensionFile="'.jpg, .jpeg, .png, .bmp, .gif, .svg, .webp'" -->
+                            @fileSelection="handleImageChange":extensionFile="'.jpg, .jpeg, .png, .bmp, .gif, .svg, .webp'" ></FileSelector> 
                             <div v-if="updating">
                                 <span class="text-xs">Actually</span>
                                 <img alt="img-lesson" v-bind:src="'/storage/image_lessons/' + form.image_uri" width="100px" />
                             </div>
                             <InputError :message="$page.props.errors.image" class="mt-2" />
+                            <InputError :message="$page.props.errors.image_update" class="mt-2" />
                         </div>
                         <div class="w-1/2 inline-flex mt-7">
                             <Checkbox class="py-2 mx-3" name="is_free" id="is_free" v-model:checked="form.is_free" />

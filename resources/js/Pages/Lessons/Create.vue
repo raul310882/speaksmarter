@@ -75,7 +75,7 @@
                             :form="form" :categories="categories" :levels="levels" 
                             @changeSelected="handleSelect" @fileSelected="handleFile" 
                             @imageSelect="handleImage" @contentSelect="handleContent"
-                            @submit="console.log(form), form.post(route('lessons.store'))" />   
+                            @send="console.log(form), form.post(route('lessons.store'))" />   
                         </div>
                     </div>
                 </div>

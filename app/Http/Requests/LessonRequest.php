@@ -23,16 +23,16 @@ class LessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:100'],   //, ValidationRule::unique(table: 'lessons', column: 'name')->ignore(id: request('lesson'), idColumn: 'id')
+            'name' => ['required', 'string', 'max:100', ValidationRule::unique(table: 'lessons', column: 'name')->ignore(id: request('lesson'), idColumn: 'id')],   //
             'description' => ['required', 'string', 'max:150'],
             'level_id' => ['required', 'exists:levels,id'],
             'categories' => ['required'],
             'content' => ['excludeIf:updating,true', 'required', 'file', 'extensions:zip'],
             'pdf' => ['excludeIf:updating,true', 'required', 'file', 'extensions:pdf'],
             'image' => ['excludeIf:updating,true', 'required', 'image'],
-           /*  'content' => ['excludeIf:content_update,false', 'required', 'file', 'extensions:zip'],
-            'pdf' => ['excludeIf:pdf_update,false', 'required', 'file', 'extensions:pdf'],
-            'image' => ['excludeIf:image_update,false', 'required', 'image'], */
+            //'content_update' => ['excludeIf:content_update_flag,false', 'file', 'extensions:zip'],
+            //'pdf_update' => ['excludeIf:pdf_update_flag,false', 'file', 'extensions:pdf'],
+            //s'image_update' => ['excludeIf:image_update_flag,false', 'image'],
         ];
     }
 }

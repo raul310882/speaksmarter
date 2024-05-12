@@ -28,6 +28,7 @@ Route::middleware([
    /*  Route::get('/lessons', [LessonController::class, 'index'])->name('lessons.index');
     Route::post('/lessons/create', [LessonController::class, 'create'])->name('lessons.create');
     Route::get('/lessons/edit', [LessonController::class, 'edit'])->name('lessons.edit'); */
+    Route::post('/lessons/update/{lesson}', [LessonController::class, 'update'])->name('lesson.update');
     Route::resource('/lessons', LessonController::class);
     Route::resource('/roles', RoleController::class);
     
