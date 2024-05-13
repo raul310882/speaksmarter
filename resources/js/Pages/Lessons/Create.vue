@@ -57,8 +57,6 @@
     form.content = content_select.value
     }
 
-//form.post(route('lessons.store'))
-
 </script>
 
 <template>

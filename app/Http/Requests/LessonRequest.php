@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule as ValidationRule;
+use Illuminate\Validation\Rules\File;
 
 class LessonRequest extends FormRequest
 {
@@ -27,12 +28,12 @@ class LessonRequest extends FormRequest
             'description' => ['required', 'string', 'max:150'],
             'level_id' => ['required', 'exists:levels,id'],
             'categories' => ['required'],
-           //'content' => ['exclude_with:content_update', 'required', 'file', 'extensions:zip'],
-            //'pdf' => ['exclude_with:pdf_update', 'required', 'file', 'extensions:pdf'],
-            'image' => ['exclude_with:image_update','required', 'image'],
-            /* 'content_update' => ['exclude_with,content',  'file', 'extensions:zip'],
-            'pdf_update' => ['exclude_with,pdf', 'file', 'extensions:pdf'], */
-            //'image_update' => ['exclude_with,image', 'image']
+            'content' => ['sometimes', 'required', File::types('zip')->max(5 * 1024)],
+            'pdf' => ['sometimes', 'required', File::types('pdf')->max(2 * 1024)], 
+            'image' => ['sometimes', 'required', File::image()->max(2 * 1024)],
+            'content_update' => ['nullable',  File::types('zip')->max(5 * 1024)],
+            'pdf_update' => ['nullable', File::types('pdf')->max(2 * 1024)], 
+            'image_update' => ['nullable', File::image()->max(2 * 1024)]
         ];
     }
 }

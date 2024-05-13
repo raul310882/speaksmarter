@@ -32,19 +32,7 @@ defineProps({
     levels: {
         type: Object,
         required: true
-    }/* ,  
-    content: {
-        type: Object,
-        required: false
-    },
-    image:{
-        type: Object,
-        required: false
-    },
-    pdf: {
-        type: Object,
-        required: false
-    } */
+    }
 })
 
 const emit = defineEmits(['changeSelected', 'send', 'fileSelected', 'imageSelect', 'contentSelect'])
@@ -115,7 +103,6 @@ const onCategories = (_categories) => {
                         </div>
                     </div>
                 </div>
-
                 <div class="w-full mt-5">
                     <div class="flex mt-5">
                         <div class="w-1/2"> 
@@ -169,7 +156,6 @@ const onCategories = (_categories) => {
                         </div>
                     </div>
                 </div>
-                
             </div>
         </template>
         <template #actions>

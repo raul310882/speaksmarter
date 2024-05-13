@@ -96,16 +96,26 @@ class LessonController extends Controller
         $lesson->description = $request->description;
         $lesson->level_id = $request->level_id;
         $lesson->is_free = $request->is_free;
+        $lesson->categories()->sync(array_column($request->categories, 'id'));
 
         if ($request->hasFile('image_update')) {
             Storage::delete('public/image_lessons/'.$lesson->image_uri);
             $lesson->image_uri = time().'.'.$request->image_update->extension();
             $request->image_update->storeAs('public/image_lessons', $lesson->image_uri); 
         }
+        if ($request->hasFile('content_update')) {
+            Storage::delete('public/content_lessons/'.$lesson->content_uri);
+            $lesson->content_uri = time().'.'.$request->content_update->extension();
+            $request->content_update->storeAs('public/content_lessons', $lesson->content_uri); 
+        }
+        if ($request->hasFile('pdf_update')) {
+            Storage::delete('public/pdf_lessons/'.$lesson->pdf_uri);
+            $lesson->pdf_uri = time().'.'.$request->pdf_update->extension();
+            $request->pdf_update->storeAs('public/pdf_lessons', $lesson->pdf_uri); 
+        }
 
         $lesson->save();
 
-        $lesson->categories()->sync(array_column($request->categories, 'id'));
         return redirect()->route('lessons.index');
     }
 
@@ -117,6 +127,7 @@ class LessonController extends Controller
         $lesson_files = Lesson::find($lesson);  // buscar registro a eliminar
         Storage::delete('public/image_lessons/'.$lesson_files[0]->image_uri);   //eliminar imagen
         Storage::delete('public/pdf_lessons/'.$lesson_files[0]->pdf_uri);   //eliminar pdf
+        Storage::delete('public/content_lessons/'.$lesson_files[0]->content_uri);   //eliminar content
      
         $lesson -> categories() -> detach();    //eliminar registros de la tabla pivote
         $lesson->delete();                      //eliminar registro de la tabla lesson
