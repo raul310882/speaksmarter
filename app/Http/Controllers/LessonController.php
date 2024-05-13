@@ -90,7 +90,7 @@ class LessonController extends Controller
      */
     public function update(LessonRequest $request, $lesson_id)
     {
-        dd($request);
+        //dd($request);
         $lesson = Lesson::find($lesson_id);
         $lesson->name = $request->name;                             //guardado de datos de la lesson
         $lesson->description = $request->description;

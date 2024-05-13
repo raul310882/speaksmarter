@@ -27,12 +27,12 @@ class LessonRequest extends FormRequest
             'description' => ['required', 'string', 'max:150'],
             'level_id' => ['required', 'exists:levels,id'],
             'categories' => ['required'],
-            'content' => ['excludeIf:updating,true', 'required', 'file', 'extensions:zip'],
-            'pdf' => ['excludeIf:updating,true', 'required', 'file', 'extensions:pdf'],
-            'image' => ['excludeIf:updating,true', 'required', 'image'],
-            //'content_update' => ['excludeIf:content_update_flag,false', 'file', 'extensions:zip'],
-            //'pdf_update' => ['excludeIf:pdf_update_flag,false', 'file', 'extensions:pdf'],
-            //s'image_update' => ['excludeIf:image_update_flag,false', 'image'],
+           //'content' => ['exclude_with:content_update', 'required', 'file', 'extensions:zip'],
+            //'pdf' => ['exclude_with:pdf_update', 'required', 'file', 'extensions:pdf'],
+            'image' => ['exclude_with:image_update','required', 'image'],
+            /* 'content_update' => ['exclude_with,content',  'file', 'extensions:zip'],
+            'pdf_update' => ['exclude_with,pdf', 'file', 'extensions:pdf'], */
+            //'image_update' => ['exclude_with,image', 'image']
         ];
     }
 }

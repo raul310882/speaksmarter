@@ -46,9 +46,9 @@ const form = useForm({
     image_update: null,
     pdf_update: null,
     content_update: null,
-    image_update_flag: false,
+    /* image_update_flag: false,
     pdf_update_flag: false,
-    content_update_flag: false
+    content_update_flag: false */
 })
 
 const handleSelect = (_categories_selected) => {
@@ -59,19 +59,19 @@ const handleSelect = (_categories_selected) => {
 const handleFile = (_file_selected) => {
 file_select.value = _file_selected
 form.pdf_update = file_select.value
-form.pdf_update_flag = true
+//form.pdf_update_flag = true
 }
 
 const handleImage = (_image_selected) => {
 image_select.value = _image_selected
 form.image_update= image_select.value
-form.image_update_flag = true
+//form.image_update_flag = true
 }
 
 const handleContent = (_content_selected) => {
 content_select.value = _content_selected
 form.content_update = content_select.value
-form.content_update_flag = true
+//form.content_update_flag = true
 }
 
 const handleSend = id => {
