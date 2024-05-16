@@ -70,6 +70,12 @@ const logout = () => {
                                     Roles
                                 </NavLink>
                             </div>
+
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" v-if="$page.props.user.permissions.includes('read roles')">
+                                <NavLink :href="route('mails.index')" :active="route().current('roles.*')">
+                                    Mails
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">

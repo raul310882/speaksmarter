@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,5 +32,6 @@ Route::middleware([
     Route::post('/lessons/update/{lesson}', [LessonController::class, 'update'])->name('lesson.update');
     Route::resource('/lessons', LessonController::class);
     Route::resource('/roles', RoleController::class);
+    Route::resource('/mails', MailController::class);
     
 });
