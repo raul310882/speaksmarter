@@ -8,6 +8,7 @@ export default {
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link } from "@inertiajs/vue3";
 import { Inertia } from "@inertiajs/inertia";
+import { ref } from "vue";
 
 defineProps({
     correos: {
@@ -16,10 +17,11 @@ defineProps({
     }
 });
 
-const fileSelected = ref()
+const fileSelected = ref("")
 
 const showFile = (_file) => {
-    fileSelected = _file
+    fileSelected.value = "/storage/pdf_temp/"+_file
+    console.log(fileSelected.value)
 }
 
 </script>
@@ -70,9 +72,9 @@ const showFile = (_file) => {
                         </div>
                         <div> 
                             <ul>
-                                <li v-for="(adjuntos, index) in correo.attach" :key="index" class="text-xs bg-indigo-100 rounded hover:bg-indigo-300 py-2 px-2 ml-1 mt-1 mb-1"
-                                @click="showFile(correo.adjuntos.index)" >
-                                   <span>{{ adjuntos }}</span>
+                                <li v-for="(adjunto, index) in correo.attach" :key="index" class="text-xs bg-indigo-100 rounded hover:bg-indigo-300 py-2 px-2 ml-1 mt-1 mb-1"
+                                @click="showFile(adjunto)" >
+                                   <span>{{ adjunto }}</span>
                                     <!--  <a v-bind:href="'/storage/pdf_temp/' + adjuntos" target="_blank">{{ adjuntos }}</a> -->
                                 </li>
                             </ul>
@@ -88,8 +90,8 @@ const showFile = (_file) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <embed 
-                    :src="'/storage/pdf_temp/'+fileSelected" width="1250" height="500" type="application/pdf">
+                    <embed
+                    v-bind:src="fileSelected" width="1250" height="500" type="application/pdf">
                 </div>
             </div>
         </div>

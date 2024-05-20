@@ -23,7 +23,7 @@ class MailController extends Controller
        
         $inbox = imap_open($mailbox, $user, $password) or die("error en conexion".imap_last_error());
 
-        $emails = imap_search($inbox, 'SUBJECT "Operador" UNSEEN');
+        $emails = imap_search($inbox, 'SUBJECT "Operador" SINCE "1 may 2024"');
 
         if ($emails){
             foreach ($emails as $email_number){
@@ -94,7 +94,7 @@ class MailController extends Controller
                         $name = explode(".", $elemento['name']);
                         $pdf_name = 'C:\xampp\htdocs\SPEAKSMARTER\speaksmarter\storage\app\public\pdf_temp\temp'.$email_number.'cons_'.$i.'_'.$name[0].time().'.pdf';
                         file_put_contents($pdf_name, $pdf_decode);
-                        $adjuntos[] = 'temp'.$email_number.'cons_'.$i.'_'.$name[0].time().'.pdf';
+                        $adjuntos[$i] = 'temp'.$email_number.'cons_'.$i.'_'.$name[0].time().'.pdf';
                         //$pdf = fopen ($pdf_name, 'w');
                         //fwrite($pdf, $pdf_decode);
                         //fclose($pdf);
