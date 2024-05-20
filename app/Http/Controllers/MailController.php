@@ -90,11 +90,12 @@ class MailController extends Controller
                         unset ($attachments[$i]);
                     } else {
                         //$data = substr($attachments[$i]['attachment'], strpos($attachments[$i]['attachment'], ',') + 1);
+                        //$extension = explode('.', $elemento['filename']);
                         $pdf_decode = base64_decode($elemento['attachment'], true);
-                        $name = explode(".", $elemento['name']);
-                        $pdf_name = 'C:\xampp\htdocs\SPEAKSMARTER\speaksmarter\storage\app\public\pdf_temp\temp'.$email_number.'cons_'.$i.'_'.$name[0].time().'.pdf';
+                        //$name = explode(".", $elemento['name']);
+                        $pdf_name = 'C:\xampp\htdocs\SPEAKSMARTER\speaksmarter\storage\app\public\pdf_temp/'.$email_number.'cons_'.$i.'_'.$elemento['name'];
                         file_put_contents($pdf_name, $pdf_decode);
-                        $adjuntos[$i] = 'temp'.$email_number.'cons_'.$i.'_'.$name[0].time().'.pdf';
+                        $adjuntos[$i] = $email_number.'cons_'.$i.'_'.$elemento['name'];
                         //$pdf = fopen ($pdf_name, 'w');
                         //fwrite($pdf, $pdf_decode);
                         //fclose($pdf);
@@ -143,7 +144,7 @@ class MailController extends Controller
 
             }
 
-        //dd($correos);
+        //dd();
         return inertia('Mails/Index', ['correos' => $correos]);
     }
 }

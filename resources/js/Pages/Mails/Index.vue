@@ -18,10 +18,25 @@ defineProps({
 });
 
 const fileSelected = ref("")
+const type = ref("")
 
 const showFile = (_file) => {
+    let ext = _file
+    ext = ext.split('.')           // se obtiene la extension del archivo
+    if (ext[1] === 'pdf' || ext[1] === 'PDF' ) {
+        type.value = 'application/pdf'
+    } else {
+        if (ext[1] === 'jpg' || ext[1] === 'JPG' || ext[1] === 'jpeg' ||ext[1] === 'JPEG') {
+            type.value = 'image/jpg'
+        } else {
+            if (ext[1] === 'png' || ext[1] === 'PNG') {
+                type.value = 'image/png'
+            }
+        }
+    }
     fileSelected.value = "/storage/pdf_temp/"+_file
     console.log(fileSelected.value)
+    console.log(ext[1])
 }
 
 </script>
@@ -47,7 +62,6 @@ const showFile = (_file) => {
                             </div>
                             <p class="mt-1 truncate text-sm text-gray-500">{{ correo.subject }}</p>
                         </div>
-                        <img class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300" src="https://qph.cf2.quoracdn.net/main-thumb-554097988-200-xietklpojlcioqxaqgcyykzfxblvoqrb.jpeg" alt="">
                         </div>
                         <div>
                         <div class="-mt-px flex divide-x divide-gray-200">
@@ -91,7 +105,7 @@ const showFile = (_file) => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <embed
-                    v-bind:src="fileSelected" width="1250" height="500" type="application/pdf">
+                    v-bind:src="fileSelected" width="1250" height="500" v-bind:type="type">
                 </div>
             </div>
         </div>
