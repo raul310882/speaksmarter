@@ -23,7 +23,7 @@ class MailController extends Controller
        
         $inbox = imap_open($mailbox, $user, $password) or die("error en conexion".imap_last_error());
 
-        $emails = imap_search($inbox, 'SUBJECT "Operador" SINCE "1 may 2024"');
+        $emails = imap_search($inbox, 'SUBJECT "Vacante" SINCE "1 may 2024"');
 
         if ($emails){
             foreach ($emails as $email_number){
@@ -129,14 +129,29 @@ class MailController extends Controller
                 //dd ($mail[0]->from);
                 $from = mb_convert_encoding($mail[0]->from, 'UTF-8');
                 $subject = $mail[0]->subject;
+                $vacante_puesto = explode('-', $subject);  //separa la palabra VACANTE y el PUESTO
+                $puesto = explode('Vacante', $vacante_puesto[0]);
+                //$puesto = explode ('-', $vacante[1]);    //obtiene el PUESTO
+                $nombre = $vacante_puesto[1];
+                /* for ($i = 2; $i < count($vacante); $i++){ // ciclo para obtener el NOMBRE del subject
+                    $nombre = $nombre.' '.$vacante[$i];
+                } */
+                //dd($vacante);
                 $correos[$email_number]['from'] = $from;
+                $correos[$email_number]['puesto'] = $puesto[1];
+                $correos[$email_number]['nombre'] = $nombre;
                 $correos[$email_number]['subject'] = $subject;
                 $correos[$email_number]['attach'] = $adjuntos;
-                $main = trim(imap_fetchbody($inbox, $email_number, 1.1),"\r\n");
-                //$main = imap_fetchbody($inbox, $email_number, 1);
+                //$main = trim(imap_fetchbody($inbox, $email_number, 1.1),"\"\n\r\t\v\0");
+                $main = imap_fetchbody($inbox, $email_number, 1.1);
                //$mensaje = imap_qprint($main);
                 //mb_convert_encoding($main, 'UTF-8', 'UTF-8');
                 //$correo[] = $mensaje; 
+                // Produce: You should eat pizza, beer, and ice cream every day
+                $acentos = array("Á", "É", "Í", "Ó", "Ú", "á", "é", "í", "ó", "ú");
+                $simbolos   = array("=C1", "=C9", "=CD", "=D3", "=FA", "=E1", "=E9", "=ED", "=F3", "=DA");
+
+                $main = str_replace($simbolos, $acentos, $main);
                 $correos[$email_number]['main'] = $main;
                 //$correo[] = $attachments;
                 //$correos[] = $correo;
@@ -144,7 +159,10 @@ class MailController extends Controller
 
             }
 
-        //dd();
+        //dd(quoted_printable_decode(imap_fetchbody($inbox, $email_number, 1)));
+        //dd($structure);
+        //dd(imap_bodystruct($inbox, $email_number, 1));
+        //dd(trim(imap_fetchbody($inbox, $email_number, 1.1)), $main);
         return inertia('Mails/Index', ['correos' => $correos]);
     }
 }
