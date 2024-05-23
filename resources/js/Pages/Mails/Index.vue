@@ -29,7 +29,7 @@ const showFile = (_file) => {
     <AppLayout title="Postulantes">
         <template #header>
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">
-                Mails Received
+                Mails Received {{ correos }}
             </h1>
         </template>
         <div class="flex py-6">
