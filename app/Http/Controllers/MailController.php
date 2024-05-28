@@ -45,7 +45,8 @@ class MailController extends Controller
                         'name' => '',
                         'attachment' => '',
                         'encode' => '',
-                        'size' => ''
+                        'size' => '',
+                        'save' => true
 		                );
 		
 		                if($structure->parts[$i]->ifdparameters) {
@@ -89,7 +90,8 @@ class MailController extends Controller
                         unset ($attachments[$i]);
                     } else {
                         if ($elemento['size'] > 4000000 ) {
-                            $adjuntos[$i] = $elemento['name'].' El elemento excede el tamaño permitido (3 mb)';
+                            $adjuntos[$i]['name'] = $elemento['name'].' El elemento excede el tamaño permitido (3 mb)';
+                            $adjuntos[$i]['save'] = false;
                         } else {
                             //$data = substr($attachments[$i]['attachment'], strpos($attachments[$i]['attachment'], ',') + 1);
                             //$extension = explode('.', $elemento['filename']);
@@ -97,7 +99,8 @@ class MailController extends Controller
                             //$name = explode(".", $elemento['name']);
                             $pdf_name = 'C:\xampp\htdocs\SPEAKSMARTER\speaksmarter\storage\app\public\pdf_temp/'.$email_number.'cons_'.$i.'_'.$elemento['name'];
                             file_put_contents($pdf_name, $pdf_decode);
-                            $adjuntos[$i] = $email_number.'cons_'.$i.'_'.$elemento['name'];
+                            $adjuntos[$i]['name'] = $email_number.'cons_'.$i.'_'.$elemento['name'];
+                            $adjuntos[$i]['save'] = true;
                             //$pdf = fopen ($pdf_name, 'w');
                             //fwrite($pdf, $pdf_decode);
                             //fclose($pdf);
@@ -131,13 +134,12 @@ class MailController extends Controller
 
                 $main = str_replace($simbolos, $acentos, $main);
                 $correos[$email_number]['main'] = $main;
-
             }
 
         //dd(quoted_printable_decode(imap_fetchbody($inbox, $email_number, 1)));
         //dd(imap_body($inbox, $email_number));
-        dd($correos[$email_number]);
-        dd(imap_bodystruct($inbox, $email_number, 1));
+        //dd($adjuntos);
+        //dd(imap_bodystruct($inbox, $email_number, 1));
         //dd(trim(imap_fetchbody($inbox, $email_number, 1.1)), $main);
         return inertia('Mails/Index', ['correos' => $correos]);
     }
