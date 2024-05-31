@@ -3,10 +3,7 @@ import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-
+    <div class="flex justify-center text-xl text-white bg-black">
     <Link :href="route('login')">Login</Link>
-
-    <h3>Hello World ddd</h3>
-
-    {{ $page.props }}
+    </div>
 </template>

@@ -93,25 +93,16 @@ class MailController extends Controller
                             $adjuntos[$i]['name'] = $elemento['name'].' El elemento excede el tamaño permitido (3 mb)';
                             $adjuntos[$i]['save'] = false;
                         } else {
-                            //$data = substr($attachments[$i]['attachment'], strpos($attachments[$i]['attachment'], ',') + 1);
-                            //$extension = explode('.', $elemento['filename']);
                             $pdf_decode = base64_decode($elemento['attachment'], true);
-                            //$name = explode(".", $elemento['name']);
                             $pdf_name = 'C:\xampp\htdocs\SPEAKSMARTER\speaksmarter\storage\app\public\pdf_temp/'.$email_number.'cons_'.$i.'_'.$elemento['name'];
                             file_put_contents($pdf_name, $pdf_decode);
                             $adjuntos[$i]['name'] = $email_number.'cons_'.$i.'_'.$elemento['name'];
                             $adjuntos[$i]['save'] = true;
-                            //$pdf = fopen ($pdf_name, 'w');
-                            //fwrite($pdf, $pdf_decode);
-                            //fclose($pdf);
-                            //$pdf->storeAs('public/pdf_temp', $pdf_name);
-                            //Storage::disk('local')->put($pdf_name, $pdf);
                         }
                     } 
                     $i++;
                 }
                 $mail = imap_fetch_overview($inbox, $email_number);
-                //dd ($mail[0]->from);
                 $from = mb_convert_encoding($mail[0]->from, 'UTF-8');
                 $subject = $mail[0]->subject;
                 $vacante_puesto = explode('-', $subject);  //separa la palabra VACANTE y el PUESTO
@@ -124,11 +115,8 @@ class MailController extends Controller
                 $correos[$email_number]['nombre'] = $nombre;
                 $correos[$email_number]['subject'] = $subject;
                 $correos[$email_number]['attach'] = $adjuntos;
-                //$main = trim(imap_fetchbody($inbox, $email_number, 1.1),"\"\n\r\t\v\0");
                 $main = imap_fetchbody($inbox, $email_number, 1.1);
-                //$mensaje = imap_qprint($main);
-                //mb_convert_encoding($main, 'UTF-8', 'UTF-8');
-                //$correos[$email_number] = $mensaje; 
+    
                 $acentos = array("Á", "É", "Í", "Ó", "Ú", "á", "é", "í", "ó", "ú", "ñ");
                 $simbolos   = array("=C1", "=C9", "=CD", "=D3", "=FA", "=E1", "=E9", "=ED", "=F3", "=DA", "=F1");
 
@@ -136,11 +124,6 @@ class MailController extends Controller
                 $correos[$email_number]['main'] = $main;
             }
 
-        //dd(quoted_printable_decode(imap_fetchbody($inbox, $email_number, 1)));
-        //dd(imap_body($inbox, $email_number));
-        //dd($adjuntos);
-        //dd(imap_bodystruct($inbox, $email_number, 1));
-        //dd(trim(imap_fetchbody($inbox, $email_number, 1.1)), $main);
         return inertia('Mails/Index', ['correos' => $correos]);
     }
 }

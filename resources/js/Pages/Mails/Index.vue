@@ -6,8 +6,6 @@ export default {
 
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Link } from "@inertiajs/vue3";
-import { Inertia } from "@inertiajs/inertia";
 import { ref } from "vue";
 
 defineProps({
@@ -22,42 +20,6 @@ const fileSelected = ref("")
 const showFile = (_file) => {
     fileSelected.value = "/storage/pdf_temp/"+_file
 }
-
-
-/* const options = {
-  method: 'POST',
-  url: 'https://curp-renapo5.p.rapidapi.com/wsGetIdentidad.asmx',
-  headers: {
-    'content-type': 'application/xml',
-    'Content-Type': 'text/xml; charset=utf-8',
-    SOAPAction: 'http://tempuri.org/IdentidadPorDatosCURP',
-    'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
-    'X-RapidAPI-Host': 'curp-renapo5.p.rapidapi.com'
-  },
-  data: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-            <soap:Body>
-              <IdentidadPorDatosCURP xmlns="http://tempuri.org/">
-                <op>IdentidadPorDatosCURP</op>
-                <keyAPI>01051992140919921713200915062015</keyAPI>
-                <Primer_Apellido>VELAZCO</Primer_Apellido>
-                <Segundo_Apellido>NARVAEZ</Segundo_Apellido>
-                <Nombres>RAUL RENE</Nombres>
-                <Sexo>H</Sexo>
-                <Fecha_Nacimiento>31/08/1982</Fecha_Nacimiento>
-                <CveEntidadFedNac></CveEntidadFedNac>
-              </IdentidadPorDatosCURP>
-            </soap:Body>
-          </soap:Envelope>'
-};
-
-try {
-	const response = await axios.request(options);
-	console.log(response.data);
-} catch (error) {
-	console.error(error);
-} */
-
-
 
 </script>
 
@@ -82,8 +44,6 @@ try {
                             </span>
                             </div>
                             <div class="flex bg-gray-100 p-2">
-                                <!-- <textarea class="rounded-lg text-sm border-0 resize-none" name="" id="" rows="5" cols="40" disabled>{{ correo.main }}</textarea> -->
-                                <!-- <p class="mt-1 text-clip overflow-hidden text-sm text-gray-500">{{ correo.main }}</p> -->
                                 <p class="text-xs text-ellipsis overflow-hidden">{{ correo.main }}</p>   
                             </div>
                         </div>
@@ -109,9 +69,6 @@ try {
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
                                 </svg>
-                                <!--  <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 006.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 011.767-1.052l3.223.716A1.5 1.5 0 0118 15.352V16.5a1.5 1.5 0 01-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 012.43 8.326 13.019 13.019 0 012 5V3.5z" clip-rule="evenodd" />
-                                </svg> -->
                                 Descartar
                             </a>
                             </div>
@@ -133,12 +90,8 @@ try {
 
                 </div>
             </div>
-            <!-- <div class=""> -->
-               <!--  <div class="flex bg-white overflow-hidden shadow-xl sm:rounded-lg transition-all"> -->
-                    <embed class="w-1/3 px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg transition-all"
-                    v-bind:src="fileSelected" height="700" type="application/pdf">
-                <!-- </div> -->
-            <!-- </div> -->
+                 <embed class="w-1/3 px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg transition-all"
+                v-bind:src="fileSelected" height="700" type="application/pdf">
         </div>
     </AppLayout>
 </template>

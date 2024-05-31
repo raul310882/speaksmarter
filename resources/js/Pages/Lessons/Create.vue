@@ -73,7 +73,7 @@
                             :form="form" :categories="categories" :levels="levels" 
                             @changeSelected="handleSelect" @fileSelected="handleFile" 
                             @imageSelect="handleImage" @contentSelect="handleContent"
-                            @send="console.log(form), form.post(route('lessons.store'))" />   
+                            @send="form.post(route('lessons.store'))" />   
                         </div>
                     </div>
                 </div>
